@@ -6,6 +6,11 @@ from cassandra.cluster import Cluster
 
 BTC_EUR = (111697700, 163)
 BTC_USD = (111720171, 167)
+# not sure if these values are correct - returned csv file only has a few lines
+# got them from here:
+# http://www.ariva.de/monero-kurs/chart (URL on 'HTML-Code generieren)
+XMR_EUR = (132706718, 16)
+XMR_USD = (134721158, 184)
 
 CSV_URL = "http://www.ariva.de/quote/historic/" + \
           "historic.csv?secu={}&boerse_id={}"
@@ -52,8 +57,11 @@ def main():
     session = cluster.connect()
     session.set_keyspace(args.keyspace)
 
-    ingest_exchange_rates(session, "eur", BTC_EUR[0], BTC_EUR[1])
-    ingest_exchange_rates(session, "usd", BTC_USD[0], BTC_USD[1])
+    # ingest_exchange_rates(session, "eur", BTC_EUR[0], BTC_EUR[1])
+    # ingest_exchange_rates(session, "usd", BTC_USD[0], BTC_USD[1])
+
+    ingest_exchange_rates(session, "eur", *XMR_EUR)
+    ingest_exchange_rates(session, "usd", *XMR_USD)
 
 
 if __name__ == "__main__":
