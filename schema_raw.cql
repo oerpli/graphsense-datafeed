@@ -3,8 +3,7 @@ CREATE KEYSPACE graphsense_raw_xmr WITH replication = {'class': 'SimpleStrategy'
 
 USE graphsense_raw_xmr;
 
-// XMR blockchain data
-
+-- XMR blockchain data
 
 
 -- Tables that take input from csv files
@@ -37,6 +36,9 @@ CREATE TABLE outputs (
     output_spend BOOLEAN NOT NULL --???
 );
 
+COPY outputs FROM 'outputs.csv' WITH HEADER = true;
+COPY inputs  FROM  'inputs.csv' WITH HEADER = true;
+
 
 ----! Normalized schema
 
@@ -50,6 +52,20 @@ CREATE TABLE outputs (
 --     txs list<blob>
 -- );
 
+
+
+-- USE THESE TWO TABLES TO ASSIGN IDs to inputs/outputs
+CREATE TABLE inputID (
+	inid TIMEUUID
+	keyimg text
+	PRIMARY KEY(keyimg)
+)
+
+CREATE TABLE outputID (
+	outid TIMEUUID
+	pubkey text
+	PRIMARY KEY(pubk)
+)
 
 CREATE TYPE input (
     keyimg text
@@ -100,4 +116,3 @@ CREATE TABLE exchange_rates (
 --     timestamp int,
 --     PRIMARY KEY (address, tag, source)
 -- );
-
